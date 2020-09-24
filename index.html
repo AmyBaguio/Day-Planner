@@ -10,80 +10,153 @@
     integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
   <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
-  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js" type="text/javascript"></script>
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <title>Work Day Scheduler</title>
-
 </head>
 
 <body>
   <header class="jumbotron">
-    <h1 class="display-3">Work Day Scheduler</h1>
-    <p class="lead">A simple calendar app for scheduling your work day</p>
+    <h1 class="display-3">Word Day Scheduler</h1>
+    <p class="lead">
+      A simple calendar app for scheduling your work day
+    </p>
     <p id="currentDay" class="lead"></p>
-    <h2></h2>
-    <div class="container">
-      <div id="displayMoment"></div>
   </header>
-  <div class="container">
-    <div class="9am row">
-      <div class="col-sm-2 hourly" id="9"> 9am </div>
-      <div class="col-md-8 Text Input"> </div>
-      <div class="col-sm-2 saveBtn"> Save </div>
-    </div>
-    <div class="10am row">
-      <div class="col-sm-2 hourly" id="10"> 10am </div>
-      <div class="col-md-8 Text Input"> </div>
-      <div class="col-sm-2 saveBtn"> Save </div>
-    </div>
-    <div class="11am row">
-      <div class="col-sm-2 hourly" id="11"> 11am </div>
-      <div class="col-md-8 Text Input"> </div>
-      <div class="col-sm-2 saveBtn"> Save </div>
-    </div>
-    <div class="12pm row">
-      <div class="col-sm-2 hourly" id="12"> 12pm </div>
-      <div class="col-md-8 Text Input"> </div>
-      <div class="col-sm-2 saveBtn"> Save </div>
-    </div>
-    <div class="1pm row">
-      <div class="col-sm-2 hourly" id="1"> 1pm </div>
-      <div class="col-md-8 Text Input"> </div>
-      <div class="col-sm-2 saveBtn"> Save </div>
-    </div>
-    <div class="2pm row">
-      <div class="col-sm-2 hourly" id="2"> 2pm </div>
-      <div class="col-md-8 Text Input"> </div>
-      <div class="col-sm-2 saveBtn"> Save </div>
-    </div>
-    <div class="3pm row">
-      <div class="col-sm-2 hourly" id="3"> 3pm </div>
-      <div class="col-md-8 Text Input"> </div>
-      <div class="col-sm-2 saveBtn"> Save </div>
-    </div>
-    <div class="4pm row">
-      <div class="col-sm-2 hourly" id="4"> 4pm </div>
-      <div class="col-md-8 Text Input"> </div>
-      <div class="col-sm-2 saveBtn"> Save </div>
-    </div>
-    <div class="5pm row">
-      <div class="col-sm-2 hourly" id="5"> 5pm </div>
-      <div class="col-md-8 Text Input"> </div>
-      <div class="col-sm-2 saveBtn"> Save </div>
+
+  ​
+  <div id="schedule-container" class="container">
+    <div class="row">
+      <div class="col"></div>
+      <div class="col"></div>
+      <div class="col"></div>
     </div>
   </div>
-  <script type="text/javascript">
-    (function () {
-      // instantiate a moment object
-      var NowMoment = moment();
+  ​
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+  <script>
 
-      // display value of moment object in #displayMoment div
-      var eDisplayMoment = document.getElementById('displayMoment');
-      eDisplayMoment.innerHTML = NowMoment;
+    function saveSchedule(event) {
+      // saving whatever the user typed in to local storage
 
-    })();
+
+      // get user input, and identify which time it comes from
+      const row = $(event.target).parents('.row')[0]
+
+      const textarea = $($(row).children()[1]).children('textarea');
+
+      const userInput = $(textarea).val()
+
+      // the key will the the 'data-time' attr
+      const key = $(textarea).attr('data-time');
+
+      // save the user input to local storage
+      localStorage.setItem(key, userInput);
+
+    }
+
+    function createTimeRow(time, classToAddToTextArea) {
+      // need a row
+      const row = $("<div>");
+
+      row.attr("class", "row");
+
+      // in the row
+      // has 3 cols
+
+      // first col we should insert time
+      const timeCol = $("<div>", "col");
+      timeCol.text(time);
+
+      // second text area
+      const textCol = $("<div>", "col");
+
+      const textarea = $("<textarea>");
+
+      textarea.attr("cols", 50);
+      textarea.attr("rows", 1.75);
+      textarea.attr('data-time', time);
+      textarea.attr('class', classToAddToTextArea);
+
+      const localStorageValue = localStorage.getItem(time);
+
+      if (localStorageValue !== null) {
+        textarea.val(localStorageValue);
+
+        textarea.text('abc');
+      }
+
+      textarea.on('change', saveSchedule);
+
+      textCol.append(textarea);
+
+      // third button
+
+      // <i class="fas fa-save"></i> -->how to insert this fontawesome<--
+     
+      const buttonCol = $("<div>", "col");
+      const button = $("<button>");
+      button.text("Save");
+
+      button.on('click', saveSchedule)
+
+      buttonCol.append(button);
+
+      row.append(timeCol);
+      row.append(textCol);
+      row.append(buttonCol);
+
+      return row;
+    }
+
+    $(document).ready(function () {
+
+      setInterval(function () {
+        const today = moment();
+        const currentDay = $("#currentDay").text(today.format('DD-MMMM-YYYY H:mm:ss a'));
+      }, 1000);
+
+      const times = ["9am", "10am", "11am", "12pm", "1pm", "2pm", "3pm", "4pm", "5pm"];
+      // find out the current time
+      const timenow = moment();
+      const lowerBoundary = timenow.startOf('hour');
+      const upperBoundary = lowerBoundary.clone().add(1, 'hour');
+
+      // for each item in time array
+      for (let index = 0; index < times.length; index++) {
+        const time = times[index];
+
+        // we need to generate the 'row'
+
+        // in each iteration, convert the time against time now
+        const timeMoment = moment(time, "ha");
+
+        let row;
+
+        if (timeMoment < lowerBoundary) {
+          // i want to give the block 'past' class
+          row = createTimeRow(time, 'past');
+        }
+
+        // present
+        // 9pm - 10pm
+        if (timeMoment >= lowerBoundary && timeMoment < upperBoundary) {
+          // present
+          row = createTimeRow(time, 'present')
+        }
+
+        // future
+        // > 10pm
+        if (timeMoment >= upperBoundary) {
+          // i want to give the block 'future' class
+          row = createTimeRow(time, 'future')
+        }
+
+        // add to the time container
+
+        $("#schedule-container").append(row);
+      }
+    });
   </script>
-  <script src="script.js"></script>
 </body>
 
 </html>
