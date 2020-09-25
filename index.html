@@ -15,9 +15,9 @@
 
 <body>
   <header class="jumbotron">
-    <h1 class="display-3">Word Day Scheduler</h1>
+    <h1 class="display-3">WORK DAY Scheduler</h1>
     <p class="lead">
-      A simple calendar app for scheduling your work day
+      A simple calendar app for scheduling your To Do's hourly
     </p>
     <p id="currentDay" class="lead"></p>
   </header>
@@ -64,11 +64,13 @@
       // has 3 cols
 
       // first col we should insert time
-      const timeCol = $("<div>", "col");
+      const timeCol = $("<div>");
+      timeCol.attr("class", "col col-2");
       timeCol.text(time);
 
       // second text area
-      const textCol = $("<div>", "col");
+      const textCol = $("<div>");
+      textCol.attr("class", "col col-9 px-0");
 
       const textarea = $("<textarea>");
 
@@ -85,21 +87,23 @@
         textarea.text('abc');
       }
 
-      textarea.on('change', saveSchedule);
-
       textCol.append(textarea);
 
+      
       // third button
 
-      // <i class="fas fa-save"></i> -->how to insert this fontawesome<--
-     
-      const buttonCol = $("<div>", "col");
+      const buttonCol = $("<div>");
+      buttonCol.attr("class","col col-1 px-0")
       const button = $("<button>");
-      button.text("Save");
+      button.html('<i class="fas fa-save"></i>');
+      button.attr('class' , "saveBtn");
+      
 
+      console.log(row);
       button.on('click', saveSchedule)
 
       buttonCol.append(button);
+     
 
       row.append(timeCol);
       row.append(textCol);
