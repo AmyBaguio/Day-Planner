@@ -1,11 +1,10 @@
 # 05 Third-Party APIs: Work Day Scheduler
 
+INSTRUCTION:
+
 Create a simple calendar application that allows the user to save events for each hour of the day. This app will run in the browser and feature dynamically updated HTML and CSS powered by jQuery.
 
-You'll need to use the [Moment.js](https://momentjs.com/) library to work with date and time. 
-
-
-## Acceptance Criteria
+ACCEPTANCE CRITERIA:
 
 GIVEN I am using a daily planner to create a schedule
 WHEN I open the planner
@@ -25,8 +24,12 @@ THEN the text for that event is saved in local storage
 //// after entering event/activity, must have a "save" button to store into local storage
 WHEN I refresh the page
 THEN the saved events persist
-//// when page is refresh, the saved event/activity persist
+/// when page is refresh, the saved event/activity persist
 
+THe following files were created to complete this assignment;
+-index.html with Jquery
+-style.css
+-used the [Moment.js](https://momentjs.com/) library to work with date and time. 
 
 
 
