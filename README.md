@@ -31,7 +31,7 @@ SO THAT I can manage my time effectively
 
 <br>
 
-![Application Screenshot to be Updated](./assets/images/Day-Planner.png)
+![Application Screenshot to be Updated](Day-Planner.png)
 
 <br>
 
