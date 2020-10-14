@@ -1,12 +1,13 @@
 # 05 Third-Party APIs: Work Day Scheduler
 
-## Instruction:
+
+### Instruction:
 
 Create a simple calendar application that allows the user to save events for each hour of the day. This app will run in the browser and feature dynamically updated HTML and CSS powered by jQuery.
 
 <br>
 
-## User Story
+### User Story
 
 
 AS AN employee with a busy schedule
